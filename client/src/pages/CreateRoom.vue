@@ -37,7 +37,7 @@ export default {
     position relative
     width 100%
     height 100vh
-    background url('../assets/bg.jpg')
+    /*background url('../assets/bg.jpg')*/
     background-size cover
     font-family  'Helvetica Neue', Helvetica, 'PingFang SC'
 
