@@ -3,7 +3,7 @@
     <div class="create-room__overlay" />
 
     <div class="create-room__title">
-      <h1>WebRTC</h1> 
+      <h1>WebRTC</h1>
       <h3>VIDEO CHAT</h3>
     </div>
 
@@ -14,12 +14,7 @@
     </div>
 
     <footer class="create-room__footer">
-      <a href="https://github.com/igorbezsmertnyi/webrtc-video-chat" target="_blank">
-        <div class="create-room__footer__logo">
-          <img src="../assets/gh-logo.png" alt="Git Hub Igor Bezsmertnyi" />
-        </div>
-        <p>Igor Bezsmertnyi  WebRTC video chat</p>
-      </a>
+
     </footer>
   </div>
 </template>
@@ -116,7 +111,7 @@ export default {
         &:visited
           text-decoration none
 
-      &__logo 
+      &__logo
         width 64px
         height 64px
         margin-bottom 20px

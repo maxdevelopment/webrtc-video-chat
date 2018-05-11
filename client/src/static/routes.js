@@ -1,7 +1,7 @@
-const basePath = window.location.hostname === 'localhost' ? 'http://localhost:3000' : ''
+const basePath = 'http://127.0.0.1:3000'
 
 const wsSchema = window.location.protocol === 'http:' ? 'ws:' : 'wss:'
-const baseSocket = window.location.hostname === 'localhost' ? `${wsSchema}//localhost:3000` : `${wsSchema}//${window.location.hostname}`
+const baseSocket = `${wsSchema}//127.0.0.1:3000`
 
 export default {
   createRoomPath: () => (
