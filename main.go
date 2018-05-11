@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -15,13 +14,13 @@ import (
 	"github.com/urfave/negroni"
 )
 
-func determineListenAddress() (string, error) {
-	port := os.Getenv("PORT")
-	if port == "" {
-		return ":3000", fmt.Errorf("$PORT not set")
-	}
-	return ":" + port, nil
-}
+//func determineListenAddress() (string, error) {
+//	port := os.Getenv("PORT")
+//	if port == "" {
+//		return ":3000", fmt.Errorf("$PORT not set")
+//	}
+//	return ":" + port, nil
+//}
 
 func connectDatabase() {
 	url := os.Getenv("DATABASE_URL")
@@ -50,14 +49,14 @@ func main() {
 		AllowedOrigins: []string{"*"},
 	})
 
-	addr, _ := determineListenAddress()
+	//addr, _ := determineListenAddress()
 	routes := routes.NewRoutes()
 	n := negroni.Classic()
 	n.Use(c)
 	n.UseHandler(routes)
 
 	s := &http.Server{
-		Addr:           addr,
+		Addr:           "0.0.0.0:3000",
 		Handler:        n,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
