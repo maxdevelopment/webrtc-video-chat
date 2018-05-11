@@ -1,21 +1,25 @@
 <template>
-  <div class="dock">
-    <el-tooltip id="tooltip1" effect="dark" content="Copy room link" placement="top">
-      <copy-link />
-    </el-tooltip>
+    <div class="dock">
+        <el-tooltip id="tooltip1" effect="dark" content="Copy room link" placement="top">
+            <copy-link/>
+        </el-tooltip>
 
-    <el-tooltip id="tooltip2" effect="dark" content="Mute audio" placement="top">
-      <mute-stream />
-    </el-tooltip>
+        <el-tooltip id="tooltip2" effect="dark" content="Mute audio" placement="top">
+            <mute-stream/>
+        </el-tooltip>
 
-    <el-tooltip id="tooltip3" effect="dark" content="End call" placement="top">
-      <end-call />
-    </el-tooltip>
+        <el-tooltip id="tooltip3" effect="dark" content="End call" placement="top">
+            <end-call/>
+        </el-tooltip>
 
-    <el-tooltip id="tooltip4" effect="dark" content="Make screenshot" placement="top">
-      <screen-shot />
-    </el-tooltip>
-  </div>
+        <el-tooltip id="tooltip4" effect="dark" content="Make screenshot" placement="top">
+            <screen-shot/>
+        </el-tooltip>
+
+        <el-tooltip id="tooltip5" effect="dark" content="Open whiteboard" placement="top">
+            <white-board/>
+        </el-tooltip>
+    </div>
 </template>
 
 <script>
@@ -23,15 +27,17 @@ import EndCall from './EndCall'
 import MuteStream from './MuteStream'
 import CopyLink from './CopyLink'
 import ScreenShot from './ScreenShot'
+import WhiteBoard from './WhiteBoard'
 
 export default {
-  name: 'Dock',
-  components: {
-    EndCall,
-    MuteStream,
-    CopyLink,
-    ScreenShot
-  }
+    name: 'Dock',
+    components: {
+        EndCall,
+        MuteStream,
+        CopyLink,
+        ScreenShot,
+        WhiteBoard
+    }
 }
 </script>
 
