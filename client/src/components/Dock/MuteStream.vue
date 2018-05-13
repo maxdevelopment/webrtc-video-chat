@@ -6,8 +6,8 @@
     }"
   >
     <button type="button" @click="muteStrem()">
-      <svg-icon v-show="active" src="microphone-mute" />
-      <svg-icon v-show="!active" src="microphone" />
+      <icon v-show="!active" name="microphone"></icon>
+      <icon v-show="active" name="microphone-slash"></icon>
     </button>
   </div>
 </template>
@@ -15,13 +15,18 @@
 <script>
 import SvgIcon from '@/components/SvgIcon'
 
+import 'vue-awesome/icons/microphone'
+import 'vue-awesome/icons/microphone-slash'
+import Icon from 'vue-awesome/components/Icon'
+
 export default {
   name: 'MuteStream',
   data: () => ({
     active: false
   }),
   components: {
-    SvgIcon
+    SvgIcon,
+      Icon
   },
   methods: {
     muteStrem() {

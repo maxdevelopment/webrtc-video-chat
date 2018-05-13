@@ -1,36 +1,40 @@
 <template>
   <div class="dock-btn screen">
     <button type="button" @click="makeScreen()">
-      <svg-icon src="picture" />
+      <icon name="camera"></icon>
       <canvas ref="screenShow" class="screen__canvas" />
     </button>
   </div>
 </template>
 
 <script>
-import SvgIcon from '@/components/SvgIcon'
+    import 'vue-awesome/icons/camera'
+    import Icon from 'vue-awesome/components/Icon'
 
-export default {
-  name: 'ScreenShot',
-  components: {
-    SvgIcon
-  },
-  methods: {
-    makeScreen() {
-      const canvas = this.$refs.screenShow
+    import SvgIcon from '@/components/SvgIcon'
 
-      canvas.width = window.innerWidth
-      canvas.height = window.innerWidth / 1.4
+    export default {
+        name: 'ScreenShot',
+        components: {
+            SvgIcon,
+            Icon
+        },
+        methods: {
+            makeScreen() {
+                const canvas = this.$refs.screenShow
 
-      const video = document.getElementById('otherPic')
-      const context = canvas.getContext('2d')
+                canvas.width = window.innerWidth
+                canvas.height = window.innerWidth / 1.4
 
-      context.drawImage(video, 0, 0, canvas.width, canvas.height)
+                const video = document.getElementById('otherPic')
+                const context = canvas.getContext('2d')
 
-      this.$store.dispatch('setImage', canvas.toDataURL())
+                context.drawImage(video, 0, 0, canvas.width, canvas.height)
+
+                this.$store.dispatch('setImage', canvas.toDataURL())
+            }
+        }
     }
-  }
-}
 </script>
 
 <style lang="stylus">

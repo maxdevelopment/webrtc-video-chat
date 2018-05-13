@@ -44,7 +44,7 @@ export default {
 <style lang="stylus">
   .dock
     position absolute
-    width 246px
+    width 100%
     bottom 12px
     left 0
     right 0
@@ -52,7 +52,7 @@ export default {
     padding 8px
     display flex
     flex-flow row nowrap
-    background rgba(225, 255, 255, .5)
+    background rgba(0, 0, 0, .5)
     border-radius 8px
     z-index 4
 
