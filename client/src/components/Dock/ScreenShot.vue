@@ -41,7 +41,10 @@
   @import '../../styles'
 
   .screen
-    background rgba(255,255,255,0.8)
+    background transparentify(#ADFF2F, .8)
+
+    &:hover
+     background transparentify(#32CD32, .6) !important
 
     &__canvas
       position absolute

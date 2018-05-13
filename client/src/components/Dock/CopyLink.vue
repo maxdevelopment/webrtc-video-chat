@@ -45,7 +45,10 @@
   @import '../../styles'
 
   .copy-link
-    background transparentify(#fff, .8)
+    background transparentify(#F4A460, .8)
+
+    &:hover
+     background transparentify(#DAA520, .6) !important
 
     input
       position absolute

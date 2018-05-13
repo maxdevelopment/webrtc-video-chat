@@ -46,5 +46,8 @@ export default {
   @import '../../styles'
 
   .mute-stream
-    background transparentify(#fff, .8)
+    background transparentify(#00FFFF, .8)
+
+    &:hover
+     background transparentify(#00BFFF, .6) !important
 </style>
