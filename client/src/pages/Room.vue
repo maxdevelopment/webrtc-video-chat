@@ -2,6 +2,7 @@
   <div>
     <own-pic :stream="ownStream" :streaming="streaming" />
     <other-pic :stream="otherStream" :lostConn="lostConn" />
+    <white-board-canvas />
     <dock />
     <screen-img />
   </div>
@@ -12,6 +13,7 @@ import OwnPic from '@/components/Stream/OwnPic'
 import OtherPic from '@/components/Stream/OtherPic'
 import Dock from '@/components/Dock'
 import ScreenImg from '@/components/ScreenImg'
+import WhiteBoardCanvas from '@/components/WhiteBoardCanvas'
 import Routes from '@/static/routes'
 
 export default {
@@ -28,7 +30,8 @@ export default {
     OwnPic,
     OtherPic,
     Dock,
-    ScreenImg
+    ScreenImg,
+    WhiteBoardCanvas
   },
   beforeMount() {
     this.id = Math.random().toString(36).substr(2, 9)
@@ -36,6 +39,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch('checkRoom')
+    this.$store.dispatch('setRoomId', this.id)
+    this.$store.dispatch('setWs', this.ws)
     this.startStream()
   },
   methods: {
@@ -58,7 +63,7 @@ export default {
         id: this.id,
         command: 'NEW'
       })
-      
+
       this.ws.send(obj)
     },
 
@@ -74,9 +79,9 @@ export default {
 
     startStream() {
       navigator.getMedia = (
-        navigator.getUserMedia || 
-        navigator.webkitGetUserMedia || 
-        navigator.mozGetUserMedia || 
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
         navigator.msGetUserMedia
       )
 
@@ -126,17 +131,20 @@ export default {
             break
           case 'CONN':
             this.connCommand(wsData)
-            break 
+            break
+          case 'DRAW':
+            console.log(wsData);
+            break
         }
       }
     },
 
     peerConnected() {
       this.currentPeer.on('connect', () => console.info('peer conncection created'))
-      this.currentPeer.on('stream', stream => { 
+      this.currentPeer.on('stream', stream => {
         this.streaming = true
         this.lostConn = false
-        this.otherStream = stream 
+        this.otherStream = stream
       })
     },
 
