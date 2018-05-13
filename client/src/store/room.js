@@ -20,7 +20,7 @@ export default {
       state.createdAt = data.created_at
       state.created = true
 
-      localStorage.setItem('room', JSON.stringify(state))
+      // localStorage.setItem('room', JSON.stringify(state))
     },
 
     SET_ROOM(state, data) {
@@ -46,6 +46,8 @@ export default {
           }
         })
         const room = await res.json()
+
+          console.log(room);
   
         await commit('CREATE_ROOM', room)
         await router.push({ path: `/room/${room.slug}` })

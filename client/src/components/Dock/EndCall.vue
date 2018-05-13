@@ -7,19 +7,20 @@
 </template>
 
 <script>
-import SvgIcon from '@/components/SvgIcon'
+    import SvgIcon from '@/components/SvgIcon'
 
-export default {
-  name: 'EndCall',
-  components: {
-    SvgIcon
-  },
-  methods: {
-    destroyPeer() {
-      window.location.href = '/'
+    export default {
+        name: 'EndCall',
+        components: {
+            SvgIcon
+        },
+        methods: {
+            destroyPeer() {
+                window.location.href = '/'
+                localStorage.removeItem('room')
+            }
+        }
     }
-  }
-}
 </script>
 
 <style lang="stylus">
