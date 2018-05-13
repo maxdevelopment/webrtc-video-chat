@@ -1,18 +1,22 @@
 <template>
   <div class="dock-btn end-call">
     <button type="button" @click="destroyPeer()">
-      <svg-icon src="phone" />
+      <icon name="power-off"></icon>
     </button>
   </div>
 </template>
 
 <script>
+    import 'vue-awesome/icons/power-off'
+    import Icon from 'vue-awesome/components/Icon'
+
     import SvgIcon from '@/components/SvgIcon'
 
     export default {
         name: 'EndCall',
         components: {
-            SvgIcon
+            SvgIcon,
+            Icon
         },
         methods: {
             destroyPeer() {
