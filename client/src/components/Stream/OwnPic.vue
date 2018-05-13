@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     class="own-pic"
     :class="{
       'own-pic--streaming': streaming,
@@ -7,10 +7,10 @@
     }"
     ref="picContainer"
     @dblclick="resizePic()"
-  > 
-    <div 
-      class="own-pic__drag-area" 
-      @mousedown="mouseDownMove()" 
+  >
+    <div
+      class="own-pic__drag-area"
+      @mousedown="mouseDownMove()"
     />
     <video id="ownPic" class="own-pic__video" ref="ownPic" autoplay playsinline />
   </div>
@@ -57,7 +57,7 @@ export default {
     startStream(stream) {
       const video = this.$refs.ownPic
 
-      video.muted = true      
+      video.muted = true
       video.srcObject = stream
       setTimeout(() => video.play().catch(this.logError), 1000)
     },
@@ -76,14 +76,14 @@ export default {
     height 100%
     top 0
     right 0
-    z-index 2
+    z-index 5
     resize both
 
     &--streaming
       width 323.6px
       height 242.7px
       padding 12px
-    
+
     &--resized
       width calc(323.6px * 1.5)
       height calc(242.7px * 1.5)
