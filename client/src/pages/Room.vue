@@ -15,6 +15,7 @@ import Dock from '@/components/Dock'
 import ScreenImg from '@/components/ScreenImg'
 import WhiteBoardCanvas from '@/components/WhiteBoardCanvas'
 import Routes from '@/static/routes'
+import {EventBus} from '@/EventBus';
 
 export default {
   name: 'Room',
@@ -133,7 +134,7 @@ export default {
             this.connCommand(wsData)
             break
           case 'DRAW':
-            console.log(wsData);
+            EventBus.$emit('whiteboard-draw', wsData)
             break
         }
       }
