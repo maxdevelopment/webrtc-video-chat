@@ -5,6 +5,9 @@
       'own-pic--streaming': streaming,
       'own-pic--resized': resized
     }"
+    :style="{
+      'z-index': windowIndex
+    }"
     ref="picContainer"
     @dblclick="resizePic()"
   >
@@ -30,6 +33,15 @@ export default {
   },
   mounted() {
     window.addEventListener('mouseup', this.mouseUp, false)
+  },
+  computed: {
+    windowIndex() {
+      let whiteBoardVisibility = this.$store.getters.whiteBoard.visibility
+      if (this.resized && whiteBoardVisibility) {
+        return 5
+      }
+      return 4
+    }
   },
   methods: {
     mouseDownMove() {
@@ -76,7 +88,6 @@ export default {
     height 100%
     top 0
     right 0
-    z-index 5
     resize both
 
     &--streaming

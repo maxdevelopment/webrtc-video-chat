@@ -65,7 +65,7 @@ export default {
     flex-flow row nowrap
     background rgba(0, 0, 0, .5)
     border-radius 8px
-    z-index 4
+    z-index 6
 
   .btn-block
     display inline-block
