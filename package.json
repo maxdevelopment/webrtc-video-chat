@@ -13,7 +13,7 @@
   "dependencies": {
     "element-ui": "^2.3.4",
     "es6-promise": "^4.2.4",
-    "literallycanvas": "file:client/literallycanvas",
+    "literallycanvas": "file:./literallycanvas",
     "simple-peer": "^9.0.0",
     "style-loader": "^0.20.3",
     "stylus": "^0.54.5",
