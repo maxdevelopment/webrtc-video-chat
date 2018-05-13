@@ -1,24 +1,34 @@
 <template>
     <div class="dock">
-        <el-tooltip id="tooltip1" effect="dark" content="Copy room link" placement="top">
-            <copy-link/>
-        </el-tooltip>
-
-        <el-tooltip id="tooltip2" effect="dark" content="Mute audio" placement="top">
-            <mute-stream/>
-        </el-tooltip>
-
-        <el-tooltip id="tooltip3" effect="dark" content="End call" placement="top">
-            <end-call/>
-        </el-tooltip>
-
-        <el-tooltip id="tooltip4" effect="dark" content="Make screenshot" placement="top">
-            <screen-shot/>
-        </el-tooltip>
-
         <el-tooltip id="tooltip5" effect="dark" content="Open whiteboard" placement="top">
             <white-board/>
         </el-tooltip>
+
+        <div class="btn-right">
+            <div class="btn-block">
+                <el-tooltip id="tooltip1" effect="dark" content="Copy room link" placement="top">
+                    <copy-link/>
+                </el-tooltip>
+            </div>
+
+            <div class="btn-block">
+                <el-tooltip id="tooltip2" effect="dark" content="Mute audio" placement="top">
+                    <mute-stream/>
+                </el-tooltip>
+            </div>
+
+            <div class="btn-block">
+                <el-tooltip id="tooltip3" effect="dark" content="End call" placement="top">
+                    <end-call/>
+                </el-tooltip>
+            </div>
+
+            <div class="btn-block">
+                <el-tooltip id="tooltip4" effect="dark" content="Make screenshot" placement="top">
+                    <screen-shot/>
+                </el-tooltip>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -55,5 +65,12 @@ export default {
     background rgba(0, 0, 0, .5)
     border-radius 8px
     z-index 4
+
+  .btn-block
+    display inline-block
+
+  .btn-right
+    margin-left auto
+    padding-right 20px
 
 </style>
