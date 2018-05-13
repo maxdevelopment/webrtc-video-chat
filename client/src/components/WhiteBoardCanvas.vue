@@ -53,7 +53,6 @@
           this.uniqWBId = Math.ceil(Math.random() * 10000);
           LC.init(document.getElementById('canvascontainer'), {
             imageURLPrefix: '/static/img',
-            imageSize: { width: 1000, height: 300 },
             tools: [
               LC.tools.Pencil,
               LC.tools.Eraser,
@@ -185,11 +184,12 @@
     -webkit-box-shadow: -4px 7px 8px 0px rgba(0, 0, 0, 0.25);
     box-shadow: -4px 7px 8px 0px rgba(0, 0, 0, 0.25);
     z-index 4
-
+    width 100%
+    height 100%
   #canvascontainer
     display block
     cursor none
-    width 1000px
+    height 100%
   #cursor
     position absolute
     top -10px
