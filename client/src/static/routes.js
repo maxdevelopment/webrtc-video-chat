@@ -1,7 +1,7 @@
-const basePath = window.location.hostname === 'rtc' ? 'http://127.0.0.1:3000' : 'http://5.61.45.181:3000'
+const basePath = window.location.hostname === '0.0.0.0' ? 'http://127.0.0.1:3000' : 'http://5.61.45.181:3000'
 
 const wsSchema = window.location.protocol === 'http:' ? 'ws:' : 'wss:'
-const baseSocket = window.location.hostname === 'rtc' ? `${wsSchema}//127.0.0.1:3000` : `${wsSchema}//5.61.45.181:3000`
+const baseSocket = window.location.hostname === '0.0.0.0' ? `${wsSchema}//127.0.0.1:3000` : `${wsSchema}//5.61.45.181:3000`
 
 export default {
     createRoomPath: () => (

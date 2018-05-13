@@ -28,139 +28,131 @@
       <i id="cursor" :style="cursorPosition"></i>
     </div>
 
-    <p v-html="positionQueue.length"></p>
-    <p v-html="positionQueue"></p>
+    <!--<p v-html="positionQueue.length"></p>-->
+    <!--<p v-html="positionQueue"></p>-->
 
   </div>
 </template>
 
 <script>
-  const PARTIAL_SEND_LIMIT = 15;
+    import {EventBus} from '@/EventBus';
 
-  export default {
-    name: "WhiteBoardCanvas",
-    data: () => ({
-      currentColor: '#000000',
-      currentSize: 3,
-      lastPosition: {
-        x: 0,
-        y: 0,
-      },
-      positionQueue: [],
-      isDrawing: false,
-      context: {},
-      ws: false
-    }),
-    watch: {
-      currentColor(value) {
-        if (!this.context) {
-          return;
-        }
-        this.context.strokeStyle = value;
-      },
-    },
-    computed: {
-      visibility() {
-        return this.$store.getters.whiteBoard.visibility
-      },
-      cursorPosition() {
-        return {
-          top: `${this.lastPosition.y}px`,
-          left: `${this.lastPosition.x}px`,
-          'background-color': this.currentColor,
-          width: `${this.currentSize}px`,
-          height: `${this.currentSize}px`,
-        };
-      },
-      currentConnection() {
-        return this.$store.getters.whiteBoard
-      }
-    },
-    mounted() {
-      console.log('mounted');
-      this.context = document.getElementById('canvas').getContext('2d');
-      this.context.clearRect(0, 0, 800, 600);
-      this.context.lineJoin = 'round';
-      this.context.lineCap = 'round';
-      // this.ws = new WebSocket(window.location.href.replace(/http(s?)/, 'ws$1'));
-      const ws = this.$store.getters.whiteBoard.visibility;
-      console.log(ws);
-      // ws.onmessage = (event) => {
-      //   console.log('event');
-      //   console.log(event);
-      //   //   const lineDetails = JSON.parse(event.data);
-      //   //   this.drawLine(lineDetails.data, lineDetails.color, lineDetails.width);
-      // };
-      setInterval(() => {
-        if (this.isDrawing) {
-          const positionQueueLength = this.positionQueue.length;
-          if (positionQueueLength > 1) {
-            const previousPosition = this.positionQueue[positionQueueLength - 1];
-            const xDifference = Math.abs(previousPosition.x - this.lastPosition.x);
-            const yDifference = Math.abs(previousPosition.y - this.lastPosition.y);
-            if (xDifference === 0 && yDifference === 0) {
-              return;
+    const PARTIAL_SEND_LIMIT = 15;
+
+    export default {
+        name: "WhiteBoardCanvas",
+        data: () => ({
+            currentColor: '#000000',
+            currentSize: 3,
+            lastPosition: {
+                x: 0,
+                y: 0,
+            },
+            positionQueue: [],
+            isDrawing: false,
+            context: {},
+            ws: false
+        }),
+        watch: {
+            currentColor(value) {
+                if (!this.context) {
+                    return;
+                }
+                this.context.strokeStyle = value;
+            },
+        },
+        computed: {
+            visibility() {
+                return this.$store.getters.whiteBoard.visibility
+            },
+            cursorPosition() {
+                return {
+                    top: `${this.lastPosition.y}px`,
+                    left: `${this.lastPosition.x}px`,
+                    'background-color': this.currentColor,
+                    width: `${this.currentSize}px`,
+                    height: `${this.currentSize}px`,
+                };
             }
-          }
-          this.positionQueue.push({
-            x: this.lastPosition.x,
-            y: this.lastPosition.y,
-          });
-          if (this.positionQueue.length > PARTIAL_SEND_LIMIT) {
-            this.sendLine(this.positionQueue.slice(0, PARTIAL_SEND_LIMIT));
-            this.positionQueue = this.positionQueue.slice(PARTIAL_SEND_LIMIT - 1, this.positionQueue.length - 1);
-          }
-          if (this.positionQueue.length > 4) {
-            this.drawLine(this.positionQueue.slice(-5), this.currentColor, this.currentSize);
-          }
-        }
-      }, 15);
-    },
-    methods: {
-      startDraw(e) {
-        console.log('start');
-        this.isDrawing = true;
-      },
-      stopDraw(e) {
-        console.log('stop');
-        if (this.isDrawing) {
-          this.sendLine(this.positionQueue);
-          this.positionQueue = [];
-        }
-        this.isDrawing = false;
-      },
-      updatelastPosition(e) {
-        const rect = e.target.getBoundingClientRect();
-        this.lastPosition.x = e.pageX - rect.left;
-        this.lastPosition.y = e.pageY - rect.top - window.pageYOffset;
-      },
-      drawLine(points, color, size) {
-        if (points.length === 0 || !this.context) {
-          return;
-        }
-        this.context.strokeStyle = color;
-        this.context.lineWidth = size;
-        this.context.beginPath();
-        this.context.moveTo(points[0].x, points[0].y);
+        },
+        mounted() {
+            this.context = document.getElementById('canvas').getContext('2d');
+            this.context.clearRect(0, 0, 800, 600);
+            this.context.lineJoin = 'round';
+            this.context.lineCap = 'round';
+            setInterval(() => {
+                if (this.isDrawing) {
+                    const positionQueueLength = this.positionQueue.length;
+                    if (positionQueueLength > 1) {
+                        const previousPosition = this.positionQueue[positionQueueLength - 1];
+                        const xDifference = Math.abs(previousPosition.x - this.lastPosition.x);
+                        const yDifference = Math.abs(previousPosition.y - this.lastPosition.y);
+                        if (xDifference === 0 && yDifference === 0) {
+                            return;
+                        }
+                    }
+                    this.positionQueue.push({
+                        x: this.lastPosition.x,
+                        y: this.lastPosition.y,
+                    });
+                    if (this.positionQueue.length > PARTIAL_SEND_LIMIT) {
+                        this.sendLine(this.positionQueue.slice(0, PARTIAL_SEND_LIMIT));
+                        this.positionQueue = this.positionQueue.slice(PARTIAL_SEND_LIMIT - 1, this.positionQueue.length - 1);
+                    }
+                    if (this.positionQueue.length > 4) {
+                        this.drawLine(this.positionQueue.slice(-5), this.currentColor, this.currentSize);
+                    }
+                }
+            }, 15);
+            EventBus.$on('whiteboard-draw', (data) => {
+                this.drawLine(data.data, data.color, data.width);
+            })
+        },
+        methods: {
+            startDraw(e) {
+                console.log('start');
+                this.isDrawing = true;
+            },
+            stopDraw(e) {
+                console.log('stop');
+                if (this.isDrawing) {
+                    this.sendLine(this.positionQueue);
+                    this.positionQueue = [];
+                }
+                this.isDrawing = false;
+            },
+            updatelastPosition(e) {
+                const rect = e.target.getBoundingClientRect();
+                this.lastPosition.x = e.pageX - rect.left;
+                this.lastPosition.y = e.pageY - rect.top - window.pageYOffset;
+            },
+            drawLine(points, color, size) {
+                if (points.length === 0 || !this.context) {
+                    return;
+                }
+                this.context.strokeStyle = color;
+                this.context.lineWidth = size;
+                this.context.beginPath();
+                this.context.moveTo(points[0].x, points[0].y);
 
-        for (let index = 1; index < points.length; index += 1) {
-          this.context.lineTo(points[index].x, points[index].y);
-        }
-        this.context.stroke();
-      },
-      sendLine(points) {
-        const roomId = this.$store.getters.whiteBoard.roomId;
-        const ws = this.$store.getters.whiteBoard.ws;
+                for (let index = 1; index < points.length; index += 1) {
+                    this.context.lineTo(points[index].x, points[index].y);
+                }
+                this.context.stroke();
+            },
+            sendLine(points) {
+                const roomId = this.$store.getters.whiteBoard.roomId;
+                const ws = this.$store.getters.whiteBoard.ws;
 
-        ws.send(JSON.stringify({
-          command: 'DRAW',
-          color: this.currentColor,
-          width: this.currentSize,
-          data: points,
-        }));
-      }
+                ws.send(JSON.stringify({
+                    command: 'DRAW',
+                    color: this.currentColor,
+                    width: this.currentSize,
+                    data: points,
+                }));
+            }
+        }
     }
-  }
 </script>
 
 <style lang="stylus" scoped>
