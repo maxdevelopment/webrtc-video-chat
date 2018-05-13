@@ -1,6 +1,6 @@
 export default {
   state: {
-    visibility: true,
+    visibility: false,
     roomId: null,
     ws: null
   },

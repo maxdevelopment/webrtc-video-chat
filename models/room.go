@@ -16,7 +16,7 @@ type Room struct {
 // Create Room Action
 func CreateRoom(db *sql.DB) (*Room, error) {
 	created := Room{}
-	slug := utils.RandStringBytes(64)
+	slug := utils.RandStringBytes(4)
 	createdAt := time.Now()
 
 	row, _ := db.Query(
