@@ -134,8 +134,12 @@ export default {
             this.connCommand(wsData)
             break
           case 'DRAW':
-            EventBus.$emit('whiteboard-draw', wsData)
-            break
+            console.log(wsData);
+            EventBus.$emit('whiteboard-draw', wsData);
+            break;
+          case 'CLEAR':
+            EventBus.$emit('whiteboard-clear', wsData);
+            break;
         }
       }
     },
