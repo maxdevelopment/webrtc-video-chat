@@ -6,8 +6,10 @@
     }"
   >
     <button type="button" @click="muteStrem()">
-      <icon v-show="!active" name="microphone"></icon>
-      <icon v-show="active" name="microphone-slash"></icon>
+      <div style="margin-left: 3px">
+        <icon v-if="!active" name="microphone"></icon>
+      </div>
+      <icon v-if="active" name="microphone-slash"></icon>
     </button>
   </div>
 </template>

@@ -53,6 +53,7 @@ export default {
 
 <style lang="stylus">
   .dock
+    font-weight bold
     position absolute
     width 100%
     bottom 12px
