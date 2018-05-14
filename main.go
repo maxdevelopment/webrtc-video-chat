@@ -1,17 +1,17 @@
 package main
 
 import (
-	"log"
-	"net/http"
-	"os"
-	"time"
+  "log"
+  "net/http"
+  "os"
+  "time"
 
-	"webrtc-video-chat/models"
-	"webrtc-video-chat/routes"
-	"webrtc-video-chat/ws"
+  "webrtc-video-chat/models"
+  "webrtc-video-chat/routes"
+  "webrtc-video-chat/ws"
 
-	"github.com/rs/cors"
-	"github.com/urfave/negroni"
+  "github.com/rs/cors"
+  "github.com/urfave/negroni"
 )
 
 //func determineListenAddress() (string, error) {
@@ -22,45 +22,60 @@ import (
 //	return ":" + port, nil
 //}
 
+const (
+  //sslCert = "/etc/ssl/certs/rtc-selfsigned.crt"
+  //sslKey  = "/etc/ssl/private/rtc-selfsigned.key"
+
+  /*5.61.45.181*/
+  sslCert = "rtc-selfsigned.crt"
+  sslKey = "rtc-selfsigned.key"
+)
+
 func connectDatabase() {
-	url := os.Getenv("DATABASE_URL")
+  url := os.Getenv("DATABASE_URL")
 
-	if url == "" {
-		url = "user=postgres password=postgres dbname=postgres sslmode=disable"
-	}
+  if url == "" {
+    url = "user=postgres password=postgres dbname=postgres sslmode=disable"
+  }
 
-	db, err := models.Connect(url)
+  db, err := models.Connect(url)
 
-	if err != nil {
-		log.Fatalf("Connection error: %s", err.Error())
-	}
+  if err != nil {
+    log.Fatalf("Connection error: %s", err.Error())
+  }
 
-	models.SetDatabase(db)
+  models.SetDatabase(db)
 }
 
 func main() {
-	go connectDatabase()
+  go connectDatabase()
 
-	hub := ws.H
+  go http.ListenAndServe(":80", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+   http.Redirect(w, r, "https://"+r.Host+r.URL.String(), http.StatusMovedPermanently)
+  }))
 
-	go hub.Run()
+  hub := ws.H
 
-	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
-	})
+  go hub.Run()
 
-	//addr, _ := determineListenAddress()
-	routes := routes.NewRoutes()
-	n := negroni.Classic()
-	n.Use(c)
-	n.UseHandler(routes)
+  c := cors.New(cors.Options{
+    AllowedOrigins: []string{"*"},
+  })
 
-	s := &http.Server{
-		Addr:           "0.0.0.0:3000",
-		Handler:        n,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-	}
-	log.Fatal(s.ListenAndServe())
+  //addr, _ := determineListenAddress()
+  routes := routes.NewRoutes()
+  n := negroni.Classic()
+  n.Use(c)
+  n.UseHandler(routes)
+
+  s := &http.Server{
+    Addr:           ":443",
+    Handler:        n,
+    ReadTimeout:    10 * time.Second,
+    WriteTimeout:   10 * time.Second,
+    MaxHeaderBytes: 1 << 20,
+    //TLSConfig: &tls.Config{InsecureSkipVerify: true},
+  }
+
+  log.Fatal(s.ListenAndServeTLS(sslCert, sslKey))
 }
